@@ -1,20 +1,17 @@
-
 /* source - https://learn.javascript.ru/task/random-int-min-max */
-function randomInteger(min, max) {
+const randomInteger = (min, max) => {
 
-    if (max <= min) {
-        return min;
-    }
+  min = Math.abs(min);
+  max = Math.abs(max);
 
-    let rand = min + Math.random() * (max + 1 - min);
-    return Math.floor(rand);
-}
+  if (max <= min) {
+    return min;
+  }
+  return Math.floor(min + Math.random() * (max + 1 - min));
+};
 
-function lengthNotExceeded(stringToCheck, maxLength) {
+const lengthNotExceeded = (stringToCheck, maxLength) => stringToCheck.length <= maxLength;
 
-    return stringToCheck.length <= maxLength;
-
-}
 
 randomInteger(1, 3);
 lengthNotExceeded('Hello, Keks! Here goes my comment..', 140);
