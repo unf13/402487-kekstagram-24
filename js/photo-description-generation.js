@@ -27,9 +27,11 @@ const createPhotoDescription = (id) => {
 };
 
 const generatePhotoDescriptions = () => {
+  const descriptions = [];
   for (let id = 1; id <= 25; id++) {
-    createPhotoDescription(id);
+    descriptions.push(createPhotoDescription(id));
   }
+  return descriptions;
 };
 
 export {generatePhotoDescriptions};
