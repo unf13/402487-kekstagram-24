@@ -1,6 +1,4 @@
 
-import {getRandomInteger} from './utils.js';
-
 const createMiniatures = (templateContent,picturesContainer,photoDescriptions) => {
 
   const fragment = document.createDocumentFragment();
