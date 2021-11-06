@@ -4,7 +4,7 @@ import {DESCRIPTIONS_TEXTS,MESSAGES,NAMES} from './data.js';
 const createComment = () => {
   const randomMessageIndex = getRandomInteger(0,MESSAGES.length-1);
   const randomNameIndex = getRandomInteger(0,NAMES.length-1);
-  const randomAvatarIndex = getRandomInteger(0,NAMES.length-1);
+  const randomAvatarIndex = getRandomInteger(1,NAMES.length-1);
   const randomID = generateRandomId();
   return {
     id: randomID,
@@ -19,7 +19,7 @@ const createPhotoDescription = (id) => {
   const commentsList = Array.from({length:id},createComment);// пусть количество комментариев будет, допустим, равно id
   return {
     id: id,
-    url: `photos/${id}.jpg`,
+    url: `../photos/${id}.jpg`,
     description: DESCRIPTIONS_TEXTS[randomDescriptionIndex],
     likes: getRandomInteger(15,200),
     comments: commentsList,
@@ -34,4 +34,6 @@ const generatePhotoDescriptions = () => {
   return descriptions;
 };
 
-export {generatePhotoDescriptions};
+const photoDescriptions = generatePhotoDescriptions();
+
+export {photoDescriptions};
