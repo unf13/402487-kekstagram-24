@@ -14,4 +14,6 @@ const checkStringLength = (stringToCheck, maxLength) => stringToCheck.length <= 
 
 const generateRandomId = () => getRandomInteger(0,1000) + new Date().getTime();
 
-export {getRandomInteger,checkStringLength,generateRandomId};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomInteger,checkStringLength,generateRandomId,isEscapeKey};
