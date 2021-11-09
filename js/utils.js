@@ -1,3 +1,6 @@
+
+const ESCAPE_KEY = 'Escape';
+
 /* source - https://learn.javascript.ru/task/random-int-min-max */
 const getRandomInteger = (min, max) => {
 
@@ -14,6 +17,6 @@ const checkStringLength = (stringToCheck, maxLength) => stringToCheck.length <= 
 
 const generateRandomId = () => getRandomInteger(0,1000) + new Date().getTime();
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
+const isEscapeKey = (evt) => evt.key === ESCAPE_KEY;
 
 export {getRandomInteger,checkStringLength,generateRandomId,isEscapeKey};

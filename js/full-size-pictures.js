@@ -4,7 +4,7 @@ import {isEscapeKey} from './utils.js';
 const bigPictureContainer = document.querySelector('.big-picture');
 const bigPictureImage     = bigPictureContainer.querySelector('.big-picture__img img');
 const closeElement        = bigPictureContainer.querySelector('#picture-cancel');
-const socialCommentcount  = bigPictureContainer.querySelector('.social__comment-count');
+const socialCommentCount  = bigPictureContainer.querySelector('.social__comment-count');
 const commentsLoader      = bigPictureContainer.querySelector('.comments-loader');
 const likesCount          = bigPictureContainer.querySelector('.likes-count');
 const commentsCount       = bigPictureContainer.querySelector('.comments-count');
@@ -63,7 +63,6 @@ const closeHelper = {
 
   removeEventListeners() {
     document.removeEventListener('keydown',this.onBigPictureEscKeydown);
-    // this в данном случае будет не closeHelper, поэтому явно указываем его
     closeElement.removeEventListener('click',this.onCloseElementClick);
   },
 
@@ -71,7 +70,7 @@ const closeHelper = {
 
 const showBigPicture = (photoId) => {
   bigPictureContainer.classList.remove('hidden');
-  socialCommentcount.classList.add('hidden');
+  socialCommentCount.classList.add('hidden');
   commentsLoader.classList.add('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown',closeHelper.onBigPictureEscKeydown);
