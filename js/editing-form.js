@@ -55,7 +55,7 @@ const checkHashtagsValidity = (evt) =>{
       `;
     }
 
-    const regularExpression = /^[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+    const regularExpression = /^[A-Za-zА-Яа-яЁё0-9]+$/;
 
     hashtags.forEach((hashtag) => {
 
