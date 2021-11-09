@@ -1,5 +1,10 @@
 import {isEscapeKey} from './utils.js';
 
+const FORM_SEND_ADDRESS = 'https://24.javascript.pages.academy/kekstagram';
+const MAX_COMMENT_LENGTH = 140;
+const HASHTAG_MAX_NUMBER = 5;
+const HASHTAG_MAX_LENGTH = 20;
+
 const uploadFileInput = document.querySelector('#upload-file');
 const imageUploadForm = document.querySelector('.img-upload__form');
 const editingForm = document.querySelector('.img-upload__overlay');
@@ -7,32 +12,6 @@ const uploadCancelButton = document.querySelector('#upload-cancel');
 const commentTextArea = document.querySelector('.text__description');
 const hashtagsInput = document.querySelector('.text__hashtags');
 const uploadSubmitButton = document.querySelector('.img-upload__submit');
-
-const closeHelper = {
-
-  closeEditingForm() {
-    editingForm.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-    document.removeEventListener('keydown',closeHelper.onEditingFormEscKeydown);
-    uploadCancelButton.removeEventListener('click',this.onUploadCancelButtonClick);
-    imageUploadForm.reset();
-  },
-
-  onEditingFormEscKeydown(evt){
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      if (document.activeElement === commentTextArea || document.activeElement === hashtagsInput){
-        return;
-      }
-      closeHelper.closeEditingForm();
-    }
-  },
-
-  onUploadCancelButtonClick(){
-    closeHelper.closeEditingForm();
-  },
-
-};
 
 const showErrorMessage = (message,element) =>{
 
@@ -42,10 +21,18 @@ const showErrorMessage = (message,element) =>{
 
 };
 
-const onUploadSubmitButtonClick = (evt)=>{
-
+const resetValidityState = () =>{
   hashtagsInput.setCustomValidity('');
   hashtagsInput.style.border = '';
+};
+
+const onHashtagsInputChange = () => {
+  resetValidityState();
+};
+
+const checkHashtagsValidity = (evt) =>{
+
+  resetValidityState();
 
   const hashtagsValue = imageUploadForm.hashtags.value.trim();
 
@@ -55,7 +42,7 @@ const onUploadSubmitButtonClick = (evt)=>{
 
     const hashtags = hashtagsValue.split(' ').filter((hashtag) => hashtag.length > 0);
 
-    if (hashtags.length > 5) {
+    if (hashtags.length > HASHTAG_MAX_NUMBER) {
       errorMessage += `Ошибка: обнаружены повторяющиеся хэш-теги
       `;
     }
@@ -87,7 +74,7 @@ const onUploadSubmitButtonClick = (evt)=>{
         `;
       }
 
-      if(hashtag.length > 20){
+      if(hashtag.length > HASHTAG_MAX_LENGTH){
         errorMessage += `Ошибка: максимальная длина  хэш-тега  "${hashtag}" больше 20 символов, (включая решётку)
         `;
       }
@@ -104,6 +91,38 @@ const onUploadSubmitButtonClick = (evt)=>{
 
 };
 
+const closeHelper = {
+
+  closeEditingForm() {
+    editingForm.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+    resetValidityState();
+    document.removeEventListener('keydown',closeHelper.onEditingFormEscKeydown);
+    uploadCancelButton.removeEventListener('click',closeHelper.onUploadCancelButtonClick);
+    hashtagsInput.removeEventListener('input',onHashtagsInputChange);
+    uploadSubmitButton.removeEventListener('click',closeHelper.onUploadSubmitButtonClick);
+    imageUploadForm.reset();
+  },
+
+  onEditingFormEscKeydown(evt){
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      if (document.activeElement === commentTextArea || document.activeElement === hashtagsInput){
+        return;
+      }
+      closeHelper.closeEditingForm();
+    }
+  },
+
+  onUploadCancelButtonClick(){
+    closeHelper.closeEditingForm();
+  },
+
+  onUploadSubmitButtonClick(evt){
+    checkHashtagsValidity(evt);
+  },
+
+};
 
 const showEditingForm = () => {
 
@@ -111,9 +130,10 @@ const showEditingForm = () => {
   document.body.classList.add('modal-open');
   document.addEventListener('keydown',closeHelper.onEditingFormEscKeydown);
   uploadCancelButton.addEventListener('click',closeHelper.onUploadCancelButtonClick);
-  imageUploadForm.action = 'https://24.javascript.pages.academy/kekstagram';
-  uploadSubmitButton.addEventListener('click',onUploadSubmitButtonClick);
-  commentTextArea.setAttribute('maxlength',140);
+  imageUploadForm.action = FORM_SEND_ADDRESS;
+  uploadSubmitButton.addEventListener('click',closeHelper.onUploadSubmitButtonClick);
+  commentTextArea.maxlength = MAX_COMMENT_LENGTH;
+  hashtagsInput.addEventListener('input',onHashtagsInputChange);
 };
 
 uploadFileInput.addEventListener('change',showEditingForm);
