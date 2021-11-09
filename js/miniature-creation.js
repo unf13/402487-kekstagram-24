@@ -14,7 +14,7 @@ const createMiniatures = (templateContent,picturesContainer,photoDescriptions) =
     const newPicture = templateContent.cloneNode(true);
     const image = newPicture.querySelector('img');
     image.src = description.url;
-    image.setAttribute('data-photo-id',description.id);
+    image.dataset.photoId = description.id;
     newPicture.querySelector('.picture__likes').textContent = description.likes;
     newPicture.querySelector('.picture__comments').textContent = description.comments.length;
     fragment.appendChild(newPicture);
