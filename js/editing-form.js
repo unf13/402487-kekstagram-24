@@ -97,10 +97,7 @@ const closeHelper = {
     editingForm.classList.add('hidden');
     document.body.classList.remove('modal-open');
     resetValidityState();
-    document.removeEventListener('keydown',closeHelper.onEditingFormEscKeydown);
-    uploadCancelButton.removeEventListener('click',closeHelper.onUploadCancelButtonClick);
-    hashtagsInput.removeEventListener('input',onHashtagsInputChange);
-    uploadSubmitButton.removeEventListener('click',closeHelper.onUploadSubmitButtonClick);
+    this.removeEventListeners();
     imageUploadForm.reset();
   },
 
@@ -120,6 +117,13 @@ const closeHelper = {
 
   onUploadSubmitButtonClick(evt){
     checkHashtagsValidity(evt);
+  },
+
+  removeEventListeners() {
+    document.removeEventListener('keydown',this.onEditingFormEscKeydown);
+    uploadCancelButton.removeEventListener('click',this.onUploadCancelButtonClick);
+    hashtagsInput.removeEventListener('input',onHashtagsInputChange);
+    uploadSubmitButton.removeEventListener('click',this.onUploadSubmitButtonClick);
   },
 
 };
