@@ -1,4 +1,5 @@
 import {isEscapeKey} from './utils.js';
+import {removeEffectsEventListeners,prepareEffectsSettings} from './effects.js';
 
 const FORM_SEND_ADDRESS = 'https://24.javascript.pages.academy/kekstagram';
 const MAX_COMMENT_LENGTH = 140;
@@ -124,12 +125,14 @@ const closeHelper = {
     uploadCancelButton.removeEventListener('click',this.onUploadCancelButtonClick);
     hashtagsInput.removeEventListener('input',onHashtagsInputChange);
     uploadSubmitButton.removeEventListener('click',this.onUploadSubmitButtonClick);
+    removeEffectsEventListeners();
   },
 
 };
 
 const showEditingForm = () => {
 
+  prepareEffectsSettings();
   editingForm.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown',closeHelper.onEditingFormEscKeydown);
@@ -138,6 +141,13 @@ const showEditingForm = () => {
   uploadSubmitButton.addEventListener('click',closeHelper.onUploadSubmitButtonClick);
   commentTextArea.maxlength = MAX_COMMENT_LENGTH;
   hashtagsInput.addEventListener('input',onHashtagsInputChange);
+
 };
 
-uploadFileInput.addEventListener('change',showEditingForm);
+const addUploadFileInputEventListener = () =>{
+  uploadFileInput.addEventListener('change',showEditingForm);
+};
+
+export {addUploadFileInputEventListener};
+
+
