@@ -50,9 +50,9 @@ const loadNewComments = (startIndex,initialLoading) => {
 
 };
 
-const setCommentsLoaderVisibility = (commentsleftToLoad) =>{
+const setCommentsLoaderVisibility = (commentsLeftToLoad) =>{
 
-  const shouldBeHidden = (commentsleftToLoad === 0);
+  const shouldBeHidden = (commentsLeftToLoad === 0);
 
   if (shouldBeHidden && !commentsLoader.classList.contains('hidden')) {
     commentsLoader.classList.add('hidden');
@@ -115,7 +115,7 @@ const closeHelper = {
     const loadedCommentsNumber = loadNewComments(commentIndex,false);
     let currentCommentsCount = parseInt(socialCommentCount.textContent,10);
 
-    if (isNaN(currentCommentsCount)) {
+    if (Number.isNaN(currentCommentsCount)) {
       currentCommentsCount = 0;
     }
 
