@@ -6,6 +6,7 @@ const UPLOADING_URL = 'https://24.javascript.pages.academy/kekstagram';
 
 let resultButton;
 let messageContainer;
+let photoDescriptions;
 
 const dataSendResultPopup = {
 
@@ -58,6 +59,7 @@ const getData = (onSuccess, onError) => {fetch(
     throw new Error(`${response.status} ${response.statusText}`);
   })
   .then((data) => {
+    photoDescriptions = data;
     onSuccess(data);
   })
   .catch((err) => {
@@ -85,5 +87,5 @@ const sendData = (form) => {
 };
 
 
-export{getData,sendData};
+export{getData,sendData,photoDescriptions};
 

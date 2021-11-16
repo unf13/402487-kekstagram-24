@@ -1,4 +1,4 @@
-import {photoDescriptions} from './main.js';
+import {photoDescriptions} from './server-interaction.js';
 import {isEscapeKey} from './utils.js';
 
 const COMMENTS_NUMBER = 5;
