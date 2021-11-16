@@ -1,4 +1,4 @@
-import {photoDescriptions} from './photo-description-generation.js';
+import {photoDescriptions} from './main.js';
 import {isEscapeKey} from './utils.js';
 
 const COMMENTS_NUMBER = 5;

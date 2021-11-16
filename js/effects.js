@@ -1,13 +1,16 @@
 import '../nouislider/nouislider.js';
 
+// начало подстроки с именем эффекта в названии класса
+const EFFECT_NAME_START_INDEX = 18;
+
 const EffectStyle = {
 
-  NONE: {filterValue:'none', units:'', min:0, max:0.1, start:0, step:0},
-  CHROME: {filterValue:'grayscale', units:'', min:0, max:1, start:1, step:0.1},
-  SEPIA: {filterValue:'sepia', units:'', min:0, max:1, start:1, step:0.1},
-  MARVIN: {filterValue:'invert', units:'%', min:0, max:100, start:100, step:1},
-  PHOBOS: {filterValue:'blur', units:'px', min:0, max:3, start:3, step:0.1},
-  HEAT: {filterValue:'brightness', units:'', min:1, max:3, start:3, step:0.1},
+  NONE: {filterValue:'none', units:'', min:0, max:0.1, start:0, step:0, class:'effects__preview--none'},
+  CHROME: {filterValue:'grayscale', units:'', min:0, max:1, start:1, step:0.1, class:'effects__preview--chrome'},
+  SEPIA: {filterValue:'sepia', units:'', min:0, max:1, start:1, step:0.1, class:'effects__preview--sepia'},
+  MARVIN: {filterValue:'invert', units:'%', min:0, max:100, start:100, step:1, class:'effects__preview--marvin'},
+  PHOBOS: {filterValue:'blur', units:'px', min:0, max:3, start:3, step:0.1, class:'effects__preview--phobos'},
+  HEAT: {filterValue:'brightness', units:'', min:1, max:3, start:3, step:0.1, class:'effects__preview--heat'},
 
 };
 
@@ -55,49 +58,54 @@ const onScaleBiggerClick = () => {
   }
 };
 
+const setCurrentEffect = (selectedEffect) => {
+
+  previewImage.classList.remove(currentEffect.class);
+  previewImage.classList.add(selectedEffect.class);
+
+  currentEffect = selectedEffect;
+
+  effectLevel.value = currentEffect.start;
+
+  if (currentEffect.filterValue === EffectStyle.NONE.filterValue) {
+    sliderContainer.style.display = 'none';
+  } else {
+    sliderContainer.style.display = 'block';
+  }
+
+
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: currentEffect.min,
+      max: currentEffect.max,
+    },
+    start: currentEffect.start,
+    step: currentEffect.step,
+    format: {
+      to:  (value) => {
+        if (Number.isInteger(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(1);
+      },
+      from:  (value) => parseFloat(value),
+    },
+  });
+
+};
+
 const onEffectListItemClick = (evt) =>{
 
   if (evt.target.classList.contains('effects__preview')){
 
-    const currentEffectClassName = evt.target.classList[1];
-    if (previewImage.classList.length > 0){
-      const currentImageClassName = previewImage.classList[0];
-      if (currentEffectClassName === currentImageClassName) {
-        return;
-      }
-      previewImage.classList.remove(currentImageClassName);
+    const selectedEffectClassName = evt.target.classList[1];
+
+    if (selectedEffectClassName !== currentEffect.class) {
+
+      const selectedEffect = EffectStyle[selectedEffectClassName.slice(EFFECT_NAME_START_INDEX).toUpperCase()];
+      setCurrentEffect(selectedEffect);
+
     }
-    previewImage.classList.add(currentEffectClassName);
-    currentEffect = EffectStyle[currentEffectClassName.slice(18).toUpperCase()];
-
-    effectLevel.value = currentEffect.start;
-
-    if (currentEffect.filterValue === 'none') {
-      sliderContainer.style.display = 'none';
-    } else {
-      sliderContainer.style.display = 'block';
-    }
-
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: currentEffect.min,
-        max: currentEffect.max,
-      },
-      start: currentEffect.start,
-      step: currentEffect.step,
-      format: {
-        to: function (value) {
-          if (Number.isInteger(value)) {
-            return value.toFixed(0);
-          }
-          return value.toFixed(1);
-        },
-        from: function (value) {
-          return parseFloat(value);
-        },
-      },
-    });
-
 
   }
 
@@ -128,12 +136,19 @@ const initializeHiddenSizeInputProperties = () =>{
 
 };
 
+const resetAllEffects = () => {
+
+  currentImageSize = SizeValue.DEFAULT;
+  setImageSize();
+  setCurrentEffect(DEFAULT_EFFECT);
+
+};
+
 const prepareEffectsSettings = () =>{
 
   initializeHiddenSizeInputProperties();
   addEffectsEventListeners();
-  setImageSize();
-  sliderContainer.style.display = 'none';
+  resetAllEffects();
 
 };
 
@@ -158,4 +173,4 @@ sliderElement.noUiSlider.on('update', (values, handle) => {
 
 });
 
-export {removeEffectsEventListeners,prepareEffectsSettings};
+export {removeEffectsEventListeners,prepareEffectsSettings,resetAllEffects,uploadForm};
