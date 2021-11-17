@@ -71,29 +71,29 @@ const loadPicturesInMostDiscussedOrder = () => {
 const onFilterDefaultClick = () => {
   if (filterDefault !== currentFilter) {
     toggleFiltersActiveClass(filterDefault);
-    loadPicturesByDefault();
+    debounce(loadPicturesByDefault)();
   }
 };
 
 const onFilterRandomClick = () => {
   if (filterRandom !== currentFilter) {
     toggleFiltersActiveClass(filterRandom);
-    loadRandomPictures();
+    debounce(loadRandomPictures)();
   }
 };
 
 const onFilterDiscussedClick = () => {
   if (filterDiscussed !== currentFilter) {
     toggleFiltersActiveClass(filterDiscussed);
-    loadPicturesInMostDiscussedOrder();
+    debounce(loadPicturesInMostDiscussedOrder)();
   }
 };
 
-const showfiltersContainer = () => {
+const showFiltersContainer = () => {
   filtersContainer.classList.toggle('img-filters--inactive');
-  filterDefault.addEventListener('click', debounce(() => onFilterDefaultClick()));
-  filterRandom.addEventListener('click', debounce(() => onFilterRandomClick()));
-  filterDiscussed.addEventListener('click', debounce(() => onFilterDiscussedClick()));
+  filterDefault.addEventListener('click', onFilterDefaultClick);
+  filterRandom.addEventListener('click', onFilterRandomClick);
+  filterDiscussed.addEventListener('click', onFilterDiscussedClick);
 };
 
-export {showfiltersContainer};
+export {showFiltersContainer};
