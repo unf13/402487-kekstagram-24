@@ -120,6 +120,7 @@ const addEffectsEventListeners = () => {
 const removeEffectsEventListeners = () => {
   scaleSmaller.removeEventListener('click',onScaleSmallerClick);
   scaleBigger.removeEventListener('click',onScaleBiggerClick);
+  effectsList.removeEventListener('click',onEffectListItemClick);
 };
 
 const resetAllEffects = () => {

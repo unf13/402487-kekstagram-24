@@ -35,12 +35,12 @@ const toggleFiltersActiveClass = (newFilter) => {
   currentFilter = newFilter;
 };
 
-const loadPicturesByDefault = () => {
+const loadPicturesByDefault = debounce(() => {
   removePictures();
   createMiniatures(templateContent,picturesContainer,photoDescriptions);
-};
+});
 
-const loadRandomPictures = () => {
+const loadRandomPictures = debounce(() => {
 
   const generatedIndexes = [];
   const maxIndex = photoDescriptions.length - 1;
@@ -59,14 +59,14 @@ const loadRandomPictures = () => {
   removePictures();
   const randomPictures = photoDescriptions.filter((value,index) => generatedIndexes.includes(index));
   createMiniatures(templateContent,picturesContainer,randomPictures);
-};
+});
 
-const loadPicturesInMostDiscussedOrder = () => {
+const loadPicturesInMostDiscussedOrder = debounce(() => {
   removePictures();
   const picturesCopy = photoDescriptions.slice();
   picturesCopy.sort((first, second) => second.comments.length - first.comments.length);
   createMiniatures(templateContent,picturesContainer,picturesCopy);
-};
+});
 
 const onFilterDefaultClick = () => {
   if (filterDefault !== currentFilter) {
@@ -89,11 +89,11 @@ const onFilterDiscussedClick = () => {
   }
 };
 
-const showfiltersContainer = () => {
+const showFiltersContainer = () => {
   filtersContainer.classList.toggle('img-filters--inactive');
-  filterDefault.addEventListener('click', debounce(() => onFilterDefaultClick()));
-  filterRandom.addEventListener('click', debounce(() => onFilterRandomClick()));
-  filterDiscussed.addEventListener('click', debounce(() => onFilterDiscussedClick()));
+  filterDefault.addEventListener('click', onFilterDefaultClick);
+  filterRandom.addEventListener('click', onFilterRandomClick);
+  filterDiscussed.addEventListener('click', onFilterDiscussedClick);
 };
 
-export {showfiltersContainer};
+export {showFiltersContainer};
