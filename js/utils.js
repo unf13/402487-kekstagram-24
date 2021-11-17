@@ -1,5 +1,6 @@
 
 const ESCAPE_KEY = 'Escape';
+const DEBOUNCE_TIMEOUT = 500;
 
 /* source - https://learn.javascript.ru/task/random-int-min-max */
 const getRandomInteger = (min, max) => {
@@ -12,10 +13,6 @@ const getRandomInteger = (min, max) => {
   }
   return Math.floor(min + Math.random() * (max + 1 - min));
 };
-
-const checkStringLength = (stringToCheck, maxLength) => stringToCheck.length <= maxLength;
-
-const generateRandomId = () => getRandomInteger(0,1000) + new Date().getTime();
 
 const isEscapeKey = (evt) => evt.key === ESCAPE_KEY;
 
@@ -56,4 +53,15 @@ const showAlert = (message) => {
 
 };
 
-export {getRandomInteger,checkStringLength,generateRandomId,isEscapeKey,showAlert};
+const debounce = (callback) => {
+
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), DEBOUNCE_TIMEOUT);
+  };
+
+};
+
+export {getRandomInteger,isEscapeKey,showAlert,debounce};

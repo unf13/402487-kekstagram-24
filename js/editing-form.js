@@ -1,5 +1,5 @@
 import {isEscapeKey} from './utils.js';
-import {removeEffectsEventListeners,prepareEffectsSettings,resetAllEffects,uploadForm} from './effects.js';
+import {removeEffectsEventListeners,prepareEffectsSettings,resetAllEffects} from './effects.js';
 import {sendData} from './server-interaction.js';
 
 const FORM_SEND_ADDRESS = 'https://24.javascript.pages.academy/kekstagram';
@@ -7,6 +7,7 @@ const MAX_COMMENT_LENGTH = 140;
 const HASHTAG_MAX_NUMBER = 5;
 const HASHTAG_MAX_LENGTH = 20;
 
+const uploadForm = document.querySelector('.img-upload__form');
 const uploadFileInput = document.querySelector('#upload-file');
 const imageUploadForm = document.querySelector('.img-upload__form');
 const editingForm = document.querySelector('.img-upload__overlay');
@@ -45,7 +46,7 @@ const checkHashtagsValidity = () =>{
     const hashtags = hashtagsValue.split(' ').filter((hashtag) => hashtag.length > 0);
 
     if (hashtags.length > HASHTAG_MAX_NUMBER) {
-      errorMessage += `Ошибка: обнаружены повторяющиеся хэш-теги
+      errorMessage += `Ошибка: количество хэш-тегов превышает разрешенное количество - ${HASHTAG_MAX_NUMBER}
       `;
     }
 

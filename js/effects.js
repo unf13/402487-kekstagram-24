@@ -28,8 +28,8 @@ const scaleSmaller = uploadForm.querySelector('.scale__control--smaller');
 const scaleBigger  = uploadForm.querySelector('.scale__control--bigger');
 const scaleControlValue = uploadForm.querySelector('.scale__control--value');
 const previewImage = uploadForm.querySelector('.img-upload__preview img');
-const hiddenSizeInput = document.createElement('input');
-const hiddenEffectLevelInput = document.createElement('input');
+const hiddenSizeInput = uploadForm.querySelector('.scale__control--value');
+const hiddenEffectLevelInput = uploadForm.querySelector('.effect-level__value');
 const sliderContainer = uploadForm.querySelector('.img-upload__effect-level');
 const sliderElement = sliderContainer.querySelector('.effect-level__slider');
 const effectsList = uploadForm.querySelector('.effects__list');
@@ -122,20 +122,6 @@ const removeEffectsEventListeners = () => {
   scaleBigger.removeEventListener('click',onScaleBiggerClick);
 };
 
-const initializeHiddenSizeInputProperties = () =>{
-  // скрытые поля для отправки на сервер по условиям домашнего задания
-  hiddenSizeInput.type  = 'hidden';
-  hiddenSizeInput.name  = 'hidden-image-size';
-  hiddenSizeInput.value = SizeValue.DEFAULT;
-  uploadForm.append(hiddenSizeInput);
-
-  hiddenEffectLevelInput.type  = 'hidden';
-  hiddenEffectLevelInput.name  = 'hidden-effect-level';
-  hiddenEffectLevelInput.value = currentEffect.start;
-  uploadForm.append(hiddenEffectLevelInput);
-
-};
-
 const resetAllEffects = () => {
 
   currentImageSize = SizeValue.DEFAULT;
@@ -146,7 +132,6 @@ const resetAllEffects = () => {
 
 const prepareEffectsSettings = () =>{
 
-  initializeHiddenSizeInputProperties();
   addEffectsEventListeners();
   resetAllEffects();
 
@@ -167,10 +152,10 @@ sliderElement.noUiSlider.on('update', (values, handle) => {
   effectLevel.value = values[handle];
   hiddenEffectLevelInput.value = effectLevel.value;
 
-  if (currentEffect.filterValue !== 'none') {
+  if (currentEffect.filterValue !== EffectStyle.NONE.filterValue) {
     previewImage.style.filter = `${currentEffect.filterValue}(${effectLevel.value}${currentEffect.units})`;
   }
 
 });
 
-export {removeEffectsEventListeners,prepareEffectsSettings,resetAllEffects,uploadForm};
+export {removeEffectsEventListeners,prepareEffectsSettings,resetAllEffects};
