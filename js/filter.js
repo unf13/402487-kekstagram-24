@@ -35,12 +35,12 @@ const toggleFiltersActiveClass = (newFilter) => {
   currentFilter = newFilter;
 };
 
-const loadPicturesByDefault = () => {
+const loadPicturesByDefault = debounce(() => {
   removePictures();
   createMiniatures(templateContent,picturesContainer,photoDescriptions);
-};
+});
 
-const loadRandomPictures = () => {
+const loadRandomPictures = debounce(() => {
 
   const generatedIndexes = [];
   const maxIndex = photoDescriptions.length - 1;
@@ -59,33 +59,33 @@ const loadRandomPictures = () => {
   removePictures();
   const randomPictures = photoDescriptions.filter((value,index) => generatedIndexes.includes(index));
   createMiniatures(templateContent,picturesContainer,randomPictures);
-};
+});
 
-const loadPicturesInMostDiscussedOrder = () => {
+const loadPicturesInMostDiscussedOrder = debounce(() => {
   removePictures();
   const picturesCopy = photoDescriptions.slice();
   picturesCopy.sort((first, second) => second.comments.length - first.comments.length);
   createMiniatures(templateContent,picturesContainer,picturesCopy);
-};
+});
 
 const onFilterDefaultClick = () => {
   if (filterDefault !== currentFilter) {
     toggleFiltersActiveClass(filterDefault);
-    debounce(loadPicturesByDefault)();
+    loadPicturesByDefault();
   }
 };
 
 const onFilterRandomClick = () => {
   if (filterRandom !== currentFilter) {
     toggleFiltersActiveClass(filterRandom);
-    debounce(loadRandomPictures)();
+    loadRandomPictures();
   }
 };
 
 const onFilterDiscussedClick = () => {
   if (filterDiscussed !== currentFilter) {
     toggleFiltersActiveClass(filterDiscussed);
-    debounce(loadPicturesInMostDiscussedOrder)();
+    loadPicturesInMostDiscussedOrder();
   }
 };
 
